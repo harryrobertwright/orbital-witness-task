@@ -1,0 +1,44 @@
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+fix = true
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "A001",
+    "A002",
+    "D100",
+    "D103",
+    "D104",
+    "D107",
+    "D203",
+    "D213",
+    "TRY300",
+    "COM812",
+    "ISC001",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*_tests.py" = [
+    "D101",
+    "D102",
+    "D105",
+    "D107",
+    "S101",
+    "PT009",
+    "PT027",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = ["tests"]
+python_files = ["*_tests.py"]
+pythonpath = "."
