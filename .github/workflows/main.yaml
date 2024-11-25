@@ -7,31 +7,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-    - name: Install pipenv
-      run: |
-        python -m pip install --upgrade pip
-        pip install pipenv
+      - name: Install pipenv
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pipenv
 
-    - name: Cache pipenv virtualenv
-      uses: actions/cache@v4
-      with:
-        path: ~/.local/share/virtualenvs
-        key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-pipenv-
+      - name: Cache pipenv virtualenv
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.local/share/virtualenvs
+            .venv
+          key: ${{ runner.os }}-pipenv-${{ hashFiles('**/Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pipenv-
 
-    - name: Install dependencies
-      run: make install
+      - name: Install dependencies
+        run: pipenv install --dev --python=$(which python)
 
-    - name: Run linting
-      run: make lint
+      - name: Run linting
+        run: make lint
 
-    - name: Run tests
-      run: make test
+      - name: Run tests
+        run: make test
